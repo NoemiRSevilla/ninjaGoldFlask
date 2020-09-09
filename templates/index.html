@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ninja Gold</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css.css') }}">
+</head>
+<body>
+    <div class="bigbox container-fluid">
+        <h1>Your Gold: {{session['gold']}}<div class="topbox gold"></div></h1>
+        <h1 class="energy">Energy: {{session['energy']}}%<div class="topbox percentage"></div></h1>
+        <div class="smallbox container-fluid">
+            <div class="form-group">
+                <div class="container">
+                    <h3>Farm</h3>
+                    <p>(earn 5-20 golds)</p>
+                    <p>(lose 5-20% energy)</p>
+                    <form action="/process" method="post">
+                        <input type="hidden" name="building" value="farm">
+                        <input type="submit" value="Find Gold!"
+                        class="btn btn-warning" aria-pressed="true">
+                    </form>
+                </div>
+                <div class="container">
+                    <h3>Cave</h3>
+                    <p>(earn 10-30 golds)</p>
+                    <p>(lose 10-30% energy)</p>
+                    <form action="/process" method="post">
+                        <input type="hidden" name="building" value="cave">
+                        <input type="submit" value="Find Gold!" class="btn btn-warning" aria-pressed="true">
+                    </form>
+                </div>
+                    <div class="container">
+                        <h3>House</h3>
+                        <p>(earn 0-2 golds)</p>
+                        <p>(gain 20% energy)</p>
+                        <form action="/process" method="post">
+                            <input type="hidden" name="building" value="house">
+                            <input type="submit" value="Find Gold!" class="btn btn-warning" aria-pressed="true">
+                        </form>
+                    </div>
+                    <div class="container">
+                        <h3>Casino</h3>
+                        <p>(earn/lose 0-50 golds)</p>
+                        <p>(lose 20% energy)</p>
+                        <form action="/process" method="post">
+                            <input type="hidden" name="building" value="casino">
+                            <input type="submit" value="Find Gold!" class="btn btn-warning" aria-pressed="true">
+                        </form>
+                    </form>
+                    </div>
+            </div>
+        </div>
+        <div class='resetnshit'>
+            <h5 class='move'>Activities</h5>              
+            <a href="/reset" class="move btn btn-primary btn-sm active" role="button" aria-pressed="true">Start Over</a>
+            </div>
+        {%if session['energy'] == 0:%}
+            <img src="./static/img/dead.gif" alt="thumbs" height="200" width="200">
+        {%else:%}
+            {%if session['building'] == 'farm':%}
+                <img src="./static/img/farmer.gif" alt="thumbs" height="200" width="200">
+            {%elif session['building'] == 'cave':%}
+                <img src="./static/img/cavedig.gif" alt="thumbs" height="200" width="200">
+            {%elif session['building'] == 'house':%}
+                <img src="./static/img/housefamily.gif" alt="thumbs" height="200" width="200">
+            {%elif session['building'] == 'casino':%}
+                <img src="./static/img/casino.gif" alt="thumbs" height="200" width="200">
+            {%else:%}
+                <div class="displaynone"></div>
+            {%endif%}
+        {%endif%}     
+        <div class="activities container">
+            {%for activity in session['myActivities']:%}
+                {%if session['color']=='green':%}
+                    <h6 class='green'>{{activity}}</h6>
+                {%endif%}
+                {%if session['color']=='red':%}   
+                    <h6 class='red'>{{activity}}</h6>
+                {%endif%}
+            {%endfor%}
+        </div>
+    </div>
+    
+</body>
+</html>
